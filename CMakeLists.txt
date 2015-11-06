@@ -47,7 +47,7 @@ include(ExternalProject)
 set(ep_base "${GDAL_ROOT_BINARY_DIR}/third-party")
 set_property(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 set(EP_URL "https://github.com/nextgis-extra")
-    
+
 # setup package meta-data
 include(util)
 set(GDAL_MAJOR_VERSION -1)
@@ -57,16 +57,16 @@ check_version(GDAL_MAJOR_VERSION GDAL_MINOR_VERSION GDAL_REV_VERSION)
 set(GDAL_VERSION ${GDAL_MAJOR_VERSION}.${GDAL_MINOR_VERSION}.${GDAL_REV_VERSION})
 message(STATUS "gdal version=[${GDAL_VERSION}]")
 
-if(WIN32)    
+if(WIN32)
     set(GDAL_LIB_NAME gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION})
 elseif(UNIX)
     set(GDAL_LIB_NAME gdal)
 endif()
 message(STATUS "GDAL lib name ... " ${GDAL_LIB_NAME})
 
-set(GDAL_TARGET_OBJECTS "")
-set(GDAL_TARGET_LINK_LIB "")
-set(GDAL_INSTALL_HEADERS "")
+set(GDAL_TARGET_OBJECTS)
+set(GDAL_TARGET_LINK_LIB)
+set(GDAL_INSTALL_HEADERS)
 
 # main directories
 add_subdirectory(core)
