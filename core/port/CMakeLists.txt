@@ -142,7 +142,7 @@ if(WITH_ZLIB)
         cpl_minizip_unzip.h
         cpl_minizip_zip.h
     )
-    list(APPEND CPL_SOURECS 
+    list(APPEND CPL_SOURECS
         cpl_vsil_gzip.cpp
         cpl_minizip_ioapi.cpp
         cpl_minizip_unzip.cpp
@@ -158,32 +158,27 @@ if(WITH_CURL)
   list(APPEND CPL_SOURECS
       cpl_vsil_curl.cpp
       cpl_vsil_curl_streaming.cpp )
-   
+
 endif()
 
 add_library(cpl OBJECT ${CPL_HEADERS} ${CPL_SOURECS})
 
 if(HAVE_ICONV)
-    list(APPEND GDAL_TARGET_LINK_LIB ${ICONV_LIBRARIES})
+    list(APPEND CPL_LINK_LIBRARIES ${ICONV_LIBRARIES})
 endif()
 
 if(WITH_ZLIB)
   if(NOT GDAL_USES_EXTERNAL_ZLIB)
   add_dependencies(cpl zlib)
    endif()
-  list(APPEND GDAL_TARGET_LINK_LIB ${ZLIB_LIBRARIES})
+  list(APPEND CPL_LINK_LIBRARIES ${ZLIB_LIBRARIES})
 endif()
 
 if(WITH_CURL)
   if(NOT GDAL_USES_EXTERNAL_CURL)
     add_dependencies(cpl curl)
   endif()
-  list(APPEND GDAL_TARGET_LINK_LIB ${CURL_LIBRARIES})
+  list(APPEND CPL_LINK_LIBRARIES ${CURL_LIBRARIES})
 endif()
 
-# build target
-set(GDAL_TARGET_OBJECTS ${GDAL_TARGET_OBJECTS} $<TARGET_OBJECTS:cpl> PARENT_SCOPE)
-set(GDAL_TARGET_LINK_LIB ${GDAL_TARGET_LINK_LIB} PARENT_SCOPE)
-
-# install headers
-set(GDAL_INSTALL_HEADERS ${GDAL_INSTALL_HEADERS} ${CPL_HEADERS} PARENT_SCOPE)
+build_target(cpl)
