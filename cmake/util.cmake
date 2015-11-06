@@ -102,6 +102,14 @@ function(set_libraries libs is_shared bld_dir release_name debug_name)
             set(${libs}
                 "${bld_dir}/${CMAKE_STATIC_LIBRARY_PREFIX}${release_name}${CMAKE_STATIC_LIBRARY_SUFFIX}"
             PARENT_SCOPE)
-        endif()            
-    endif()    
+        endif()
+    endif()
 endfunction(set_libraries)
+
+
+macro(build_target target_name)
+  string(TOUPPER ${target_name} target_name_)
+  set(GDAL_TARGET_OBJECTS  ${GDAL_TARGET_OBJECTS}  $<TARGET_OBJECTS:${target_name}> PARENT_SCOPE)
+  set(GDAL_TARGET_LINK_LIB ${GDAL_TARGET_LINK_LIB} ${${target_name_}_LINK_LIBRARIES} ${target_name} PARENT_SCOPE)
+  set(GDAL_INSTALL_HEADERS ${GDAL_INSTALL_HEADERS} ${${target_name_}_HEADERS} PARENT_SCOPE)
+endmacro()
