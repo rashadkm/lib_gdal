@@ -15,12 +15,14 @@ function(configure_project name repo)
         INSTALL_COMMAND "" # no install
         )
 
-      #TODO: need a better way inside nextgis_extra/lib_z repo
+      #TODO: need a better way inside nextgis_extra/lib_z repo. maybe we should enable install_command above.
+      #check with Dimitry.
       set (${PKG_NAME}_INCLUDE_DIRS ${ep_base}/Source/${PKG_NAME} ${ep_base}/Build/${PKG_NAME})
       
     endif()
     
     #TODO: need a better way inside nextgis_extra/lib_z repo
+    #should we try cmake's add_library(.... IMPORTED) ?
     if (MSVC)
       set(ZLIB_LIBRARIES
         DEBUG           "${ZLIB_BLD_DIR}/Debug/${CMAKE_STATIC_LIBRARY_PREFIX}zlibd${CMAKE_STATIC_LIBRARY_SUFFIX}"
