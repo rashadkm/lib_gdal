@@ -32,7 +32,18 @@ option(WITH_XMLREFORMAT "Set ON to use xmlreformat" OFF)
 option(WITH_ONLY_CRYPTODLL_ALG "Include cryptopp support" OFF)
 
 #Find zlib or configure ExternalProject if not found .
-include(ZLIB)
+#include(ZLIB)
+
+include(external)
+
+#this is a supermacro for all dependencies..
+#the second argument can be optional later.
+#configure_project(lib_z ) or
+#configure_project(ZLIB). That might need to change repo name in nextgis-extra/lib_z -> nextgis-extra/ZLIB !!
+#check with dimitry first.
+configure_project(ZLIB lib_z)
+
+#configure_project(CURL lib_curl)
 include(CURL)
 
 include_directories(${GDAL_ROOT_BINARY_DIR}/port)
@@ -169,7 +180,7 @@ endif()
 
 if(WITH_ZLIB)
   if(NOT GDAL_USES_EXTERNAL_ZLIB)
-  add_dependencies(cpl zlib)
+  add_dependencies(cpl ZLIB)
    endif()
   list(APPEND CPL_LINK_LIBRARIES ${ZLIB_LIBRARIES})
 endif()
