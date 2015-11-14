@@ -178,12 +178,7 @@ if(HAVE_ICONV)
     list(APPEND CPL_LINK_LIBRARIES ${ICONV_LIBRARIES})
 endif()
 
-if(WITH_ZLIB)
-  if(NOT GDAL_USES_EXTERNAL_ZLIB)
-  add_dependencies(cpl ZLIB)
-   endif()
-  list(APPEND CPL_LINK_LIBRARIES ${ZLIB_LIBRARIES})
-endif()
+
 
 if(WITH_CURL)
   if(NOT GDAL_USES_EXTERNAL_CURL)
@@ -192,4 +187,7 @@ if(WITH_CURL)
   list(APPEND CPL_LINK_LIBRARIES ${CURL_LIBRARIES})
 endif()
 
+update_link_libraries(cpl ZLIB)
+
 build_target(cpl)
+

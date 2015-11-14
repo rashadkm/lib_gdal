@@ -14,29 +14,14 @@ function(configure_project name repo)
         GIT_REPOSITORY ${EP_URL}/${PKG_REPO}
         INSTALL_COMMAND "" # no install
         )
-
-      #TODO: need a better way inside nextgis_extra/lib_z repo. maybe we should enable install_command above.
-      #check with Dimitry.
-      set (${PKG_NAME}_INCLUDE_DIRS ${ep_base}/Source/${PKG_NAME} ${ep_base}/Build/${PKG_NAME})
       
-    endif()
-    
-    #TODO: need a better way inside nextgis_extra/lib_z repo
-    #should we try cmake's add_library(.... IMPORTED) ?
-    if (MSVC)
-      set(ZLIB_LIBRARIES
-        DEBUG           "${ZLIB_BLD_DIR}/Debug/${CMAKE_STATIC_LIBRARY_PREFIX}zlibd${CMAKE_STATIC_LIBRARY_SUFFIX}"
-        RELEASE         "${ZLIB_BLD_DIR}/Release/${CMAKE_STATIC_LIBRARY_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}"
-        )
-    else()
-      set(ZLIB_LIBRARIES
-        "${ZLIB_BLD_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}z${CMAKE_STATIC_LIBRARY_SUFFIX}"
-        )
+      set(${PKG_NAME}_INCLUDE_DIRS ${ep_base}/Source/${PKG_NAME} ${ep_base}/Build/${PKG_NAME})
     endif()
 
+    add_library(${PKG_NAME}_IMP SHARED IMPORTED)
+    set_property(TARGET ${PKG_NAME}_IMP PROPERTY IMPORTED_LOCATION ${ep_base}/Build/${PKG_NAME}/libz.so)
     
-    include_directories(${${PKG_NAME}_INCLUDE_DIRS})
-    
+#    include_directories(${${PKG_NAME}_INCLUDE_DIRS})   
 
 endif()
 

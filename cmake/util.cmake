@@ -107,9 +107,28 @@ function(set_libraries libs is_shared bld_dir release_name debug_name)
 endfunction(set_libraries)
 
 
-macro(build_target target_name)
+macro(update_link_libraries targ dep)
+  string(TOUPPER ${targ} targ_)
+  
+  if(WITH_${dep}) #do we really need to check this ?
+    
+    if(NOT GDAL_USES_EXTERNAL_${dep})
+      add_dependencies(${targ} ${dep})
+    endif()
+    get_target_property(${dep}_imported_libs ${dep}_IMP IMPORTED_LOCATION)
+    list(APPEND ${targ_}_LINK_LIBRARIES ${${dep}_imported_libs})
+  endif()
+
+  include_directories(${${dep}_INCLUDE_DIRS})
+
+  #get_target_property(VAR ${dep}_IMP IMPORTED_LOCATION)
+  #message(FATAL_ERROR "VAR=${VAR}")
+  
+endmacro()
+
+macro(build_target target_name)  
   string(TOUPPER ${target_name} target_name_)
   set(GDAL_TARGET_OBJECTS  ${GDAL_TARGET_OBJECTS}  $<TARGET_OBJECTS:${target_name}> PARENT_SCOPE)
-  set(GDAL_TARGET_LINK_LIB ${GDAL_TARGET_LINK_LIB} ${${target_name_}_LINK_LIBRARIES} ${target_name} PARENT_SCOPE)
+  set(GDAL_TARGET_LINK_LIB ${GDAL_TARGET_LINK_LIB} ${${target_name_}_LINK_LIBRARIES} PARENT_SCOPE)
   set(GDAL_INSTALL_HEADERS ${GDAL_INSTALL_HEADERS} ${${target_name_}_HEADERS} PARENT_SCOPE)
 endmacro()
