@@ -48,6 +48,8 @@ set(ep_base "${GDAL_ROOT_BINARY_DIR}/third-party")
 set_property(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 set(EP_URL "https://github.com/nextgis-extra")
 
+find_package(Git)
+
 # setup package meta-data
 include(util)
 set(GDAL_MAJOR_VERSION -1)
@@ -86,6 +88,7 @@ endif(BUILD_SHARED_LIBS)
 
 list(REMOVE_DUPLICATES GDAL_TARGET_LINK_LIB)
 target_link_libraries(${GDAL_LIB_NAME} ${GDAL_TARGET_LINK_LIB})
+
 
 # install
 include(install)
